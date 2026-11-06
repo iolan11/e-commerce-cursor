@@ -1,10 +1,12 @@
 # Exercici 4 — VIBE · Ropa de segunda mano
 
-E-commerce de **ropa preloved** con HTML + CSS + JS separados. Layout con **Flexbox**, carrito en **localStorage**, checkout con tarjeta interactiva y UI en lavanda suave.
+E-commerce de **ropa preloved** con HTML + CSS + JS en patrón **MVC**. Layout con **Flexbox**, carrito en **localStorage**, checkout con tarjeta interactiva y UI en lavanda suave.
 
 ## Cómo abrirlo
 
-Abre `index.html` en el navegador (mejor con conexión para Google Fonts). Los archivos `styles.css` y `app.js` deben estar en la misma carpeta.
+Abre `index.html` en el navegador (mejor con conexión para Google Fonts).
+
+> Con `type="module"`, si abres el archivo como `file://` algunos navegadores bloquean módulos. Sirve la carpeta con un servidor local (p. ej. extensión Live Server o `npx serve`).
 
 ### Flujo rápido de prueba
 
@@ -44,25 +46,36 @@ Abre `index.html` en el navegador (mejor con conexión para Google Fonts). Los a
 
 ## Parte técnica
 
-### Estructura
+### Arquitectura MVC
 
-| Archivo | Rol |
-|---------|-----|
-| `index.html` | Marcado semántico (navbar, catálogo, carrito, checkout). |
-| `styles.css` | Estilos, variables, layout Flexbox, animaciones. |
-| `app.js` | Carrito, localStorage, checkout, tarjeta, validaciones. |
-| `README.md` | Documentación. |
+| Capa | Archivo | Responsabilidad |
+|------|---------|-----------------|
+| **Model** | `js/model.js` | Carrito, `localStorage`, totales, validaciones puras, marca de tarjeta. |
+| **View** | `js/view.js` | Render del DOM, toast, paneles, preview de tarjeta. |
+| **Controller** | `js/controller.js` | Eventos de usuario; orquesta Model ↔ View. |
+| **Entry** | `app.js` | Arranque: `init()`. |
 
-Productos con `data-id`, `data-name`, `data-price`. El JS se carga con `defer`.
+### Estructura de archivos
+
+```
+exercici4/
+├── index.html
+├── styles.css
+├── app.js
+├── js/
+│   ├── model.js
+│   ├── view.js
+│   └── controller.js
+└── README.md
+```
 
 ### UI
 
 | Pieza | Detalle |
 |-------|---------|
 | Tipografía | **Outfit** + **Nunito Sans** |
-| Color | Fondo violeta suave; acentos malva (`#9b84c7`, `#b39ddb`) |
-| Motion | Entrada de cards, hover, pulso carrito, toast, flip de tarjeta |
-| Semántica | Landmarks (`header`/`main`/`footer`), catálogo en `section`+`ul`/`article`, diálogos con `header`/`footer`, `fieldset`/`legend`, `data` en precios, skip-link |
+| Color | Variables CSS en `:root` (`--accent*`, `--bg-*`, `--ink`, `--muted`…) |
+| Semántica | Landmarks, catálogo en `section`+`ul`/`article`, `fieldset`/`legend`, skip-link |
 | Accesibilidad | `label`↔`for`/`id`; `aria-label` en iconos; `aria-expanded`/`aria-disabled` |
 
 ### Layout Flexbox
@@ -70,40 +83,14 @@ Productos con `data-id`, `data-name`, `data-price`. El JS se carga con `defer`.
 | Contenedor | Uso |
 |------------|-----|
 | `body` | Columna; `main { flex: 1 }` |
-| `.navbar` | Marca ↔ menú |
+| `.navbar` | Marca ↔ menú ↔ carrito |
 | `.product-grid` | Fila + `flex-wrap` |
 | `.product-meta` / `.footer` | Filas (footer en columna en móvil) |
-
-### Carrito / checkout (JS)
-
-| Pieza | Detalle |
-|-------|---------|
-| Clave | `vibe-ropa-cart` |
-| Ítem | `{ id, name, price, quantity }` |
-| Totales | `getOrderTotals()` → subtotal, envío, IVA, total |
-| C.P. | `validateZipField()` / `isValidSpanishZip()` (5 dígitos, 01–52) |
-| Marca tarjeta | `detectCardBrand()` por BIN (Visa, MC, Amex…) |
-| Validación DRY | `setFieldError`, `sanitizeDigitField`, `validateCheckoutForm` |
-| API | `loadCart`, `saveCart`, `addToCart`, `openCart`, `openCheckout` |
-
-### Archivos
-
-```
-exercici4/
-├── index.html
-├── styles.css
-├── app.js
-└── README.md
-```
 
 ## Criterios cubiertos
 
 - [x] Navbar, listado (3), footer, Flexbox
-- [x] CSS y JS en archivos independientes
+- [x] CSS y JS separados; JS en MVC
 - [x] Carrito + contador + localStorage
-- [x] Icono cesta + número sin fondo
-- [x] Toast 3 s, panel carrito, checkout
-- [x] IVA + envío desglosados; envío gratis ≥ 50 €
-- [x] Ropa de segunda mano; tarjeta preview + flip CVV + logo marca
-- [x] C.P. España (sin Google Maps, de pago)
-- [x] Datos demo en checkout para probar el flujo
+- [x] Toast, panel carrito, checkout, tarjeta, C.P. España
+- [x] Datos demo en checkout
