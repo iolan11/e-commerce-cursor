@@ -271,7 +271,13 @@ function renderTotalsBreakdown(container, cart) {
 }
 
 function updateCartCount(cart) {
-  cartCountEl.textContent = String(cartItemCount(cart));
+  const count = cartItemCount(cart);
+  cartCountEl.textContent = String(count);
+  const label =
+    count === 1
+      ? "Abrir carrito, 1 artículo"
+      : `Abrir carrito, ${count} artículos`;
+  cartLinkEl.setAttribute("aria-label", label);
 }
 
 function pulseCart() {
@@ -303,6 +309,7 @@ function renderCart() {
   updateCartCount(cart);
   renderTotalsBreakdown(cartTotalsEl, cart);
   cartCheckoutEl.disabled = cart.length === 0;
+  cartCheckoutEl.setAttribute("aria-disabled", String(cart.length === 0));
 
   if (cart.length === 0) {
     cartItemsEl.innerHTML =
@@ -313,21 +320,21 @@ function renderCart() {
   cartItemsEl.innerHTML = cart
     .map(
       (item) => `
-    <article class="cart-line" data-id="${item.id}">
+    <article class="cart-line" data-id="${item.id}" role="listitem">
       <div class="cart-line-top">
         <div>
-          <p class="cart-line-name">${item.name}</p>
+          <p class="cart-line-name" id="cart-item-${item.id}">${item.name}</p>
           <p class="cart-line-sub">${formatPrice(item.price)} · ud.</p>
         </div>
         <span class="cart-line-total">${formatPrice(item.price * item.quantity)}</span>
       </div>
       <div class="cart-line-actions">
-        <div class="qty-controls">
-          <button type="button" class="qty-btn" data-action="dec" aria-label="Quitar uno">−</button>
-          <span class="qty-value">${item.quantity}</span>
-          <button type="button" class="qty-btn" data-action="inc" aria-label="Añadir uno">+</button>
+        <div class="qty-controls" role="group" aria-labelledby="cart-item-${item.id}">
+          <button type="button" class="qty-btn" data-action="dec" aria-label="Quitar una unidad de ${item.name}">−</button>
+          <span class="qty-value" aria-label="Cantidad: ${item.quantity}">${item.quantity}</span>
+          <button type="button" class="qty-btn" data-action="inc" aria-label="Añadir una unidad de ${item.name}">+</button>
         </div>
-        <button type="button" class="cart-remove" data-action="remove">Quitar</button>
+        <button type="button" class="cart-remove" data-action="remove" aria-label="Quitar ${item.name} del carrito">Quitar</button>
       </div>
     </article>`
     )
@@ -359,6 +366,7 @@ function openCart() {
   lastFocus = document.activeElement;
   renderCart();
   cartOverlayEl.hidden = false;
+  cartOverlayEl.setAttribute("aria-hidden", "false");
   cartDrawerEl.hidden = false;
   void cartDrawerEl.offsetWidth;
   cartOverlayEl.classList.add("is-open");
@@ -374,6 +382,7 @@ function closeCart(options = {}) {
   cartDrawerEl.classList.remove("is-open");
   document.body.classList.remove("cart-open");
   cartLinkEl.setAttribute("aria-expanded", "false");
+  cartOverlayEl.setAttribute("aria-hidden", "true");
 
   const onEnd = () => {
     cartOverlayEl.hidden = true;
@@ -399,7 +408,7 @@ function renderCheckoutSummary() {
   checkoutSummaryListEl.innerHTML = cart
     .map(
       (item) => `
-    <div class="checkout-line">
+    <div class="checkout-line" role="listitem">
       <span>${item.name} × ${item.quantity}</span>
       <span>${formatPrice(item.price * item.quantity)}</span>
     </div>`

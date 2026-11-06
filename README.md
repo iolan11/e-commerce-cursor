@@ -62,7 +62,7 @@ Productos con `data-id`, `data-name`, `data-price`. El JS se carga con `defer`.
 | Tipografía | **Outfit** + **Nunito Sans** |
 | Color | Fondo violeta suave; acentos malva (`#9b84c7`, `#b39ddb`) |
 | Motion | Entrada de cards, hover, pulso carrito, toast, flip de tarjeta |
-| Accesibilidad | `aria-*` en carrito/checkout; `prefers-reduced-motion` |
+| Accesibilidad | `label`↔`for`/`id` en inputs; `aria-label` en botones icono; `fieldset`/`legend`; `aria-expanded`/`aria-disabled` |
 
 ### Layout Flexbox
 

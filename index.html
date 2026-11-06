@@ -11,7 +11,7 @@
 </head>
 <body>
   <header class="navbar">
-    <a class="brand" href="#">VIBE</a>
+    <a class="brand" href="#" aria-label="VIBE · Inicio">VIBE</a>
     <nav aria-label="Principal">
       <ul class="nav-links">
         <li><a href="#productos">Prendas</a></li>
@@ -22,17 +22,17 @@
             type="button"
             class="nav-cart"
             id="cart-link"
-            aria-label="Abrir carrito"
+            aria-label="Abrir carrito, 0 artículos"
             aria-haspopup="dialog"
             aria-controls="cart-drawer"
-            aria-live="polite"
+            aria-expanded="false"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="9" cy="20" r="1.4"></circle>
               <circle cx="17" cy="20" r="1.4"></circle>
               <path d="M3 4h2l2.2 11h10.3l1.8-7H7.1"></path>
             </svg>
-            <span class="nav-cart-count" id="cart-count">0</span>
+            <span class="nav-cart-count" id="cart-count" aria-hidden="true">0</span>
           </button>
         </li>
       </ul>
@@ -58,7 +58,7 @@
           <p>Talla M · Estado 9/10. Lavado medio, sin rotos. Un clásico que aguanta.</p>
           <div class="product-meta">
             <span class="price">28,00 €</span>
-            <button type="button" class="btn btn-add">Añadir</button>
+            <button type="button" class="btn btn-add" aria-label="Añadir Chaqueta denim oversized al carrito">Añadir</button>
           </div>
         </div>
       </article>
@@ -75,7 +75,7 @@
           <p>Talla 40 · Estado 8/10. Corte años 90, desgastado natural en muslos.</p>
           <div class="product-meta">
             <span class="price">22,50 €</span>
-            <button type="button" class="btn btn-add">Añadir</button>
+            <button type="button" class="btn btn-add" aria-label="Añadir Vaqueros rectos vintage al carrito">Añadir</button>
           </div>
         </div>
       </article>
@@ -92,7 +92,7 @@
           <p>Talla S · Estado 9/10. Algodón suave, print soft-vintage sin cuartear.</p>
           <div class="product-meta">
             <span class="price">12,00 €</span>
-            <button type="button" class="btn btn-add">Añadir</button>
+            <button type="button" class="btn btn-add" aria-label="Añadir Camiseta gráfica thrift al carrito">Añadir</button>
           </div>
         </div>
       </article>
@@ -101,14 +101,16 @@
 
   <footer class="footer" id="contacto">
     <p>&copy; 2026 <strong>VIBE</strong> · Ropa de segunda mano</p>
-    <ul class="footer-links">
-      <li><a href="#productos">Prendas</a></li>
-      <li><a href="#ofertas">Ofertas</a></li>
-      <li><a href="mailto:hola@vibe.local">Contacto</a></li>
-    </ul>
+    <nav aria-label="Pie de página">
+      <ul class="footer-links">
+        <li><a href="#productos">Prendas</a></li>
+        <li><a href="#ofertas">Ofertas</a></li>
+        <li><a href="mailto:hola@vibe.local" aria-label="Enviar email a hola@vibe.local">Contacto</a></li>
+      </ul>
+    </nav>
   </footer>
 
-  <div class="cart-overlay" id="cart-overlay" hidden></div>
+  <div class="cart-overlay" id="cart-overlay" hidden aria-hidden="true"></div>
   <aside
     class="cart-drawer"
     id="cart-drawer"
@@ -121,10 +123,10 @@
       <h2 id="cart-title">Tu carrito</h2>
       <button type="button" class="cart-close" id="cart-close" aria-label="Cerrar carrito">×</button>
     </div>
-    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-items" id="cart-items" role="list" aria-live="polite" aria-relevant="additions removals"></div>
     <div class="cart-drawer-footer">
-      <div class="totals-breakdown" id="cart-totals"></div>
-      <button type="button" class="btn-checkout" id="cart-checkout" disabled>
+      <div class="totals-breakdown" id="cart-totals" aria-live="polite"></div>
+      <button type="button" class="btn-checkout" id="cart-checkout" disabled aria-disabled="true">
         Ir a pagar
       </button>
     </div>
@@ -139,53 +141,56 @@
     hidden
   >
     <div class="checkout-bar">
-      <button type="button" class="checkout-back" id="checkout-back">← Volver</button>
+      <button type="button" class="checkout-back" id="checkout-back" aria-label="Volver al carrito">← Volver</button>
       <h2 id="checkout-title">Checkout</h2>
       <span aria-hidden="true" style="width: 5.5rem"></span>
     </div>
     <div class="checkout-body">
       <div class="checkout-grid">
         <form class="checkout-form" id="checkout-form" novalidate>
-          <h3>Datos de envío</h3>
-          <div class="field">
-            <label for="co-name">Nombre completo</label>
-            <input id="co-name" name="name" type="text" autocomplete="name" required placeholder="Tu nombre" value="Alex Rivera">
-          </div>
-          <div class="field">
-            <label for="co-email">Email</label>
-            <input id="co-email" name="email" type="email" autocomplete="email" required placeholder="tu@email.com" value="alex.rivera@demo.local">
-          </div>
-          <div class="field">
-            <label for="co-address">Dirección (España)</label>
-            <input id="co-address" name="address" type="text" autocomplete="street-address" required minlength="5" placeholder="Calle y número" value="Calle de Alcalá 42, 3º B">
-            <p class="field-hint">Solo envíos a España.</p>
-          </div>
-          <div class="field-row">
+          <fieldset class="form-section" aria-labelledby="shipping-heading">
+            <legend id="shipping-heading">Datos de envío</legend>
             <div class="field">
-              <label for="co-city">Ciudad</label>
-              <input id="co-city" name="city" type="text" autocomplete="address-level2" required minlength="2" placeholder="Ciudad" value="Madrid">
+              <label for="co-name">Nombre completo</label>
+              <input id="co-name" name="name" type="text" autocomplete="name" required aria-required="true" placeholder="Tu nombre" value="Alex Rivera">
             </div>
             <div class="field">
-              <label for="co-zip">C.P. España</label>
-              <input
-                id="co-zip"
-                name="zip"
-                type="text"
-                inputmode="numeric"
-                autocomplete="postal-code"
-                required
-                maxlength="5"
-                placeholder="28001"
-                pattern="^(0[1-9]|[1-4]\d|5[0-2])\d{3}$"
-                title="Código postal español válido"
-                value="28014"
-              >
+              <label for="co-email">Email</label>
+              <input id="co-email" name="email" type="email" autocomplete="email" required aria-required="true" placeholder="tu@email.com" value="alex.rivera@demo.local">
             </div>
-          </div>
-          <input type="hidden" name="country" value="ES">
+            <div class="field">
+              <label for="co-address">Dirección (España)</label>
+              <input id="co-address" name="address" type="text" autocomplete="street-address" required aria-required="true" aria-describedby="address-hint" minlength="5" placeholder="Calle y número" value="Calle de Alcalá 42, 3º B">
+              <p class="field-hint" id="address-hint">Solo envíos a España.</p>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="co-city">Ciudad</label>
+                <input id="co-city" name="city" type="text" autocomplete="address-level2" required aria-required="true" minlength="2" placeholder="Ciudad" value="Madrid">
+              </div>
+              <div class="field">
+                <label for="co-zip">C.P. España</label>
+                <input
+                  id="co-zip"
+                  name="zip"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="postal-code"
+                  required
+                  aria-required="true"
+                  maxlength="5"
+                  placeholder="28001"
+                  pattern="^(0[1-9]|[1-4]\d|5[0-2])\d{3}$"
+                  title="Código postal español válido"
+                  value="28014"
+                >
+              </div>
+            </div>
+            <input type="hidden" name="country" value="ES">
+          </fieldset>
 
-          <div class="pay-block">
-            <h3>Pago con tarjeta</h3>
+          <fieldset class="form-section pay-block" aria-labelledby="pay-heading">
+            <legend id="pay-heading">Pago con tarjeta</legend>
 
             <div class="card-scene" aria-hidden="true">
               <div class="card-3d" id="card-3d">
@@ -251,6 +256,7 @@
                 inputmode="numeric"
                 autocomplete="cc-number"
                 required
+                aria-required="true"
                 maxlength="19"
                 placeholder="XXXX XXXX XXXX XXXX"
                 pattern="(?:\d{4} ){3}\d{4}"
@@ -266,6 +272,7 @@
                 type="text"
                 autocomplete="cc-name"
                 required
+                aria-required="true"
                 placeholder="Como aparece en la tarjeta"
                 value="Alex Rivera"
               >
@@ -280,6 +287,7 @@
                   inputmode="numeric"
                   autocomplete="cc-exp"
                   required
+                  aria-required="true"
                   maxlength="5"
                   placeholder="MM/AA"
                   pattern="(?:0[1-9]|1[0-2])\/\d{2}"
@@ -296,6 +304,7 @@
                   inputmode="numeric"
                   autocomplete="cc-csc"
                   required
+                  aria-required="true"
                   maxlength="3"
                   placeholder="•••"
                   pattern="\d{3}"
@@ -304,23 +313,23 @@
                 >
               </div>
             </div>
-          </div>
+          </fieldset>
 
           <button type="submit" class="btn-place-order">Confirmar pedido</button>
         </form>
 
-        <aside class="checkout-summary">
-          <h3>Resumen</h3>
-          <div class="checkout-summary-list" id="checkout-summary-list"></div>
-          <div class="totals-breakdown" id="checkout-totals"></div>
+        <aside class="checkout-summary" aria-labelledby="summary-heading">
+          <h3 id="summary-heading">Resumen</h3>
+          <div class="checkout-summary-list" id="checkout-summary-list" role="list"></div>
+          <div class="totals-breakdown" id="checkout-totals" aria-live="polite"></div>
         </aside>
       </div>
 
-      <div class="checkout-success" id="checkout-success">
+      <div class="checkout-success" id="checkout-success" role="status" aria-live="polite">
         <div class="checkout-success-icon" aria-hidden="true">✓</div>
         <h3>Pedido confirmado</h3>
         <p id="checkout-success-msg">Gracias. Hemos recibido tu pedido (demo local).</p>
-        <button type="button" class="btn-place-order" id="checkout-done" style="max-width: 220px">Seguir comprando</button>
+        <button type="button" class="btn-place-order" id="checkout-done" style="max-width: 220px" aria-label="Volver a la tienda">Seguir comprando</button>
       </div>
     </div>
   </section>
