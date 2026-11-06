@@ -313,14 +313,14 @@ function renderCart() {
 
   if (cart.length === 0) {
     cartItemsEl.innerHTML =
-      '<p class="cart-empty">Tu carrito está vacío.<br>Añade una prenda del catálogo.</p>';
+      '<li class="cart-empty">Tu carrito está vacío.<br>Añade una prenda del catálogo.</li>';
     return;
   }
 
   cartItemsEl.innerHTML = cart
     .map(
       (item) => `
-    <article class="cart-line" data-id="${item.id}" role="listitem">
+    <li class="cart-line" data-id="${item.id}">
       <div class="cart-line-top">
         <div>
           <p class="cart-line-name" id="cart-item-${item.id}">${item.name}</p>
@@ -336,7 +336,7 @@ function renderCart() {
         </div>
         <button type="button" class="cart-remove" data-action="remove" aria-label="Quitar ${item.name} del carrito">Quitar</button>
       </div>
-    </article>`
+    </li>`
     )
     .join("");
 }
@@ -401,17 +401,17 @@ function renderCheckoutSummary() {
 
   if (cart.length === 0) {
     checkoutSummaryListEl.innerHTML =
-      '<p class="cart-empty">No hay productos en el carrito.</p>';
+      '<li class="cart-empty">No hay productos en el carrito.</li>';
     return;
   }
 
   checkoutSummaryListEl.innerHTML = cart
     .map(
       (item) => `
-    <div class="checkout-line" role="listitem">
+    <li class="checkout-line">
       <span>${item.name} × ${item.quantity}</span>
       <span>${formatPrice(item.price * item.quantity)}</span>
-    </div>`
+    </li>`
     )
     .join("");
 }
@@ -486,7 +486,7 @@ document.addEventListener("keydown", (event) => {
 cartItemsEl.addEventListener("click", (event) => {
   const button = event.target.closest("[data-action]");
   if (!button) return;
-  const line = button.closest(".cart-line");
+  const line = button.closest("li.cart-line");
   if (!line) return;
 
   const id = line.dataset.id;
