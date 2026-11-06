@@ -2,18 +2,60 @@
 
 E-commerce de **ropa preloved** con HTML + CSS + JS en patrón **MVC**. Layout con **Flexbox**, carrito en **localStorage**, checkout con tarjeta interactiva y UI en lavanda suave.
 
-## Cómo abrirlo
+## Cómo probar la app
 
-Abre `index.html` en el navegador (mejor con conexión para Google Fonts).
+La app usa módulos ES (`import` / `export`). Por eso **no conviene** abrir `index.html` a doble clic (`file://`): el navegador puede bloquear los JS. Hay que servir la carpeta `exercici4` con un servidor local.
 
-> Con `type="module"`, si abres el archivo como `file://` algunos navegadores bloquean módulos. Sirve la carpeta con un servidor local (p. ej. extensión Live Server o `npx serve`).
+No hace falta ninguna configuración extra en el proyecto: el servidor solo publica los archivos de la carpeta desde la que lo lanzas.
 
-### Flujo rápido de prueba
+### 1. Arrancar un servidor (elige una opción)
 
-1. Añade una o más prendas al carrito.
-2. Abre el icono de cesta → **Ir a pagar**.
-3. El checkout ya trae **datos ficticios** rellenados (envio + Visa de demo).
-4. Pulsa **Confirmar pedido**.
+**Opción A — Python** (si ya lo tienes instalado):
+
+```bash
+cd exercici4
+python -m http.server 5500
+```
+
+Abre en el navegador: [http://localhost:5500](http://localhost:5500)
+
+Para parar el servidor: `Ctrl+C` en esa terminal.
+
+**Opción B — Live Server** (extensión de Cursor / VS Code): clic derecho en `index.html` → *Open with Live Server*.
+
+**Opción C — Node.js** (si tienes `npx`):
+
+```bash
+cd exercici4
+npx --yes serve .
+```
+
+> Tip: lanza el servidor **dentro de `exercici4`**. Si lo lanzas en la carpeta padre, tendrás que entrar a `/exercici4/` en la URL.
+
+Conexión a internet recomendada la primera vez (Google Fonts).
+
+### 2. Flujo de prueba en la UI
+
+1. Añade una o más prendas al carrito (mira el toast y el contador del icono).
+2. Abre el icono de cesta → revisa cantidades, totales, IVA y envío.
+3. Pulsa **Ir a pagar** (el formulario ya viene con datos demo).
+4. Comprueba la preview de la tarjeta y el giro al enfocar el CVV2.
+5. Pulsa **Confirmar pedido** → mensaje de éxito.
+6. Recarga la página: el carrito vacío se mantiene vía `localStorage` (clave `vibe-ropa-cart`).
+
+### 3. Datos demo del checkout
+
+| Campo | Valor |
+|-------|-------|
+| Nombre | Alex Rivera |
+| Email | alex.rivera@demo.local |
+| Dirección | Calle de Alcalá 42, 3º B |
+| Ciudad / C.P. | Madrid / 28014 |
+| Tarjeta | `4111 1111 1111 1111` (Visa de prueba) |
+| Titular | Alex Rivera |
+| Caducidad / CVV2 | 12/28 / 123 |
+
+No hay cobro real; es solo demo local.
 
 ## Funcionalidades
 
@@ -29,20 +71,6 @@ Abre `index.html` en el navegador (mejor con conexión para Google Fonts).
 | **Demo** | Formulario prefilled para probar el flujo sin teclear. |
 | **Persistencia** | `localStorage` clave `vibe-ropa-cart`. |
 | **Responsive** | Flexbox + tipografía adaptable. |
-
-### Datos ficticios por defecto (checkout)
-
-| Campo | Valor demo |
-|-------|------------|
-| Nombre | Alex Rivera |
-| Email | alex.rivera@demo.local |
-| Dirección | Calle de Alcalá 42, 3º B |
-| Ciudad / C.P. | Madrid / 28014 |
-| Tarjeta | `4111 1111 1111 1111` (Visa) |
-| Titular | Alex Rivera |
-| Caducidad / CVV2 | 12/28 / 123 |
-
-> Nota: la tarjeta es un número de prueba habitual; no hay cobro real.
 
 ## Parte técnica
 
