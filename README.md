@@ -1,10 +1,10 @@
 # Exercici 4 — VIBE · Ropa de segunda mano
 
-E-commerce de **ropa preloved** en **un solo documento HTML** (`index.html`). Layout con **Flexbox**, carrito en **localStorage**, checkout con tarjeta interactiva y UI en lavanda suave.
+E-commerce de **ropa preloved** con HTML + CSS + JS separados. Layout con **Flexbox**, carrito en **localStorage**, checkout con tarjeta interactiva y UI en lavanda suave.
 
 ## Cómo abrirlo
 
-Abre `index.html` en el navegador (mejor con conexión para Google Fonts).
+Abre `index.html` en el navegador (mejor con conexión para Google Fonts). Los archivos `styles.css` y `app.js` deben estar en la misma carpeta.
 
 ### Flujo rápido de prueba
 
@@ -46,7 +46,14 @@ Abre `index.html` en el navegador (mejor con conexión para Google Fonts).
 
 ### Estructura
 
-Un único `index.html`: HTML semántico + CSS + JS embebidos. Productos con `data-id`, `data-name`, `data-price`.
+| Archivo | Rol |
+|---------|-----|
+| `index.html` | Marcado semántico (navbar, catálogo, carrito, checkout). |
+| `styles.css` | Estilos, variables, layout Flexbox, animaciones. |
+| `app.js` | Carrito, localStorage, checkout, tarjeta, validaciones. |
+| `README.md` | Documentación. |
+
+Productos con `data-id`, `data-name`, `data-price`. El JS se carga con `defer`.
 
 ### UI
 
@@ -73,8 +80,9 @@ Un único `index.html`: HTML semántico + CSS + JS embebidos. Productos con `dat
 | Clave | `vibe-ropa-cart` |
 | Ítem | `{ id, name, price, quantity }` |
 | Totales | `getOrderTotals()` → subtotal, envío, IVA, total |
-| C.P. | `isValidSpanishZip()` (5 dígitos, 01–52) |
+| C.P. | `validateZipField()` / `isValidSpanishZip()` (5 dígitos, 01–52) |
 | Marca tarjeta | `detectCardBrand()` por BIN (Visa, MC, Amex…) |
+| Validación DRY | `setFieldError`, `sanitizeDigitField`, `validateCheckoutForm` |
 | API | `loadCart`, `saveCart`, `addToCart`, `openCart`, `openCheckout` |
 
 ### Archivos
@@ -82,12 +90,15 @@ Un único `index.html`: HTML semántico + CSS + JS embebidos. Productos con `dat
 ```
 exercici4/
 ├── index.html
+├── styles.css
+├── app.js
 └── README.md
 ```
 
 ## Criterios cubiertos
 
-- [x] Navbar, listado (3), footer, Flexbox, un solo documento
+- [x] Navbar, listado (3), footer, Flexbox
+- [x] CSS y JS en archivos independientes
 - [x] Carrito + contador + localStorage
 - [x] Icono cesta + número sin fondo
 - [x] Toast 3 s, panel carrito, checkout
